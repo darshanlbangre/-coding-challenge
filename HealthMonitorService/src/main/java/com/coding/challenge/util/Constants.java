@@ -10,6 +10,14 @@ public class Constants {
      */
     public static final String NOT_AVAILABLE = "Not Available";
     /**
+     * The service down status
+     */
+    public static final String DOWN = "DOWN";
+    /**
+     * The service up status
+     */
+    public static final String UP = "UP";
+    /**
      *
      * The service available status.
      */

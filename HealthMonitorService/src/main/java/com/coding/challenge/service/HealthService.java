@@ -19,10 +19,19 @@ public class HealthService {
     @Autowired
     private HealthRepository healthRepository;
 
+    /**
+     * This method invokes the repository to insert subscriber details.
+     * @param subscriber
+     * @return
+     */
     public Subscriber addSubscriber(Subscriber subscriber) {
         return healthRepository.save(subscriber);
     }
 
+    /**
+     * This method returns all the subscribers.
+     * @return
+     */
     public Iterable<Subscriber> getAllSubscribers() {
         return healthRepository.findAll();
     }

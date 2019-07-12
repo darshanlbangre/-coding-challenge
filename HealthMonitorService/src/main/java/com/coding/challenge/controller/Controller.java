@@ -27,7 +27,7 @@ public class Controller {
    */
   @PostMapping(path = "/service/status/subscribe", consumes = MediaType.APPLICATION_JSON_VALUE,
           produces = MediaType.APPLICATION_JSON_VALUE)
-  public Subscriber subscribeUsersForStatus(@RequestBody Subscriber subscriber) {
+  public Subscriber subscribeForStatus(@RequestBody Subscriber subscriber) {
     return healthService.addSubscriber(subscriber);
   }
 }
