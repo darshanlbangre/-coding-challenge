@@ -1,4 +1,4 @@
-package com.coding.challenge;
+package com.coding.challenge.util;
 
 /**
  * The Contants class for holding the constants of the application.

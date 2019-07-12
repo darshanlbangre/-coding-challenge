@@ -1,6 +1,6 @@
 package com.coding.challenge.service;
 
-import com.coding.challenge.Constants;
+import com.coding.challenge.util.Constants;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.health.Health;
