@@ -29,9 +29,9 @@ public class Constants {
     /**
      * The Status down email message.
      */
-    public static final String DOWN_MESSAGE = "Hi there, you might experience instability in our services as one of the critical services is temporarily unavilable. We will keep you posted when the service is restored.";
+    public static final String DOWN_MESSAGE = "Hi there,<br /> You might experience instability in our services as one of the critical services is temporarily unavilable. We will keep you posted when the service is restored.  <br /> Thanks <br />Darshan";
     /**
      * The status up email message.
      */
-    public static final String UP_MESSAGE = "Hi there, this is a follow up email to inform you that all our services are now restored.";
+    public static final String UP_MESSAGE = "Hi there,<br /> This is a follow up email to inform you that all our services are now restored. <br /> Thanks <br />Darshan";
 }

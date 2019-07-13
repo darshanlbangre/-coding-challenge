@@ -9,3 +9,5 @@ CREATE TABLE subscriber
 
 INSERT INTO subscriber (name, email)
 VALUES ('Darshan', 'darshan.bangre@gmail.com');
+INSERT INTO subscriber (name, email)
+VALUES ('Amrutha', 'amrutha.br@gmail.com');
