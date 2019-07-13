@@ -17,41 +17,42 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class CustomHealthChecker implements HealthIndicator {
 
-  @Value( "${service.url}" )
-  private String uri;
+    @Value("${service.url}")
+    private String uri;
 
-  /**
-   * This method overrides the health method to include
-   * the health status of an external service to actuator.
-   * @return the health status.
-   */
-  @Override
-  public Health health() {
+    /**
+     * This method overrides the health method to include
+     * the health status of an external service to actuator.
+     *
+     * @return the health status.
+     */
+    @Override
+    public Health health() {
 
-    if (isServiceRunning()) {
-      return Health.up().withDetail(Constants.SERVICE, Constants.AVAILABLE).build();
+        if (isServiceRunning()) {
+            return Health.up().withDetail(Constants.SERVICE, Constants.AVAILABLE).build();
+        }
+        return Health.down().withDetail(Constants.SERVICE, Constants.NOT_AVAILABLE).build();
     }
-    return Health.down().withDetail(Constants.SERVICE, Constants.NOT_AVAILABLE).build();
-  }
 
-  /**
-   * This method invokes the actuator end point of an external service.
-   * @return the service status.
-   */
-  private Boolean isServiceRunning() {
-    try {
-      RestTemplate restTemplate = new RestTemplate();
-      ResponseEntity<String> result = restTemplate.getForEntity(uri, String.class);
-      String status = new JSONObject(result.getBody()).getString("status");
-      if (result.getStatusCodeValue() == HttpStatus.OK.value() && status.equalsIgnoreCase("UP")) {
-        return true;
-      }
+    /**
+     * This method invokes the actuator end point of an external service.
+     *
+     * @return the service status.
+     */
+    private Boolean isServiceRunning() {
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<String> result = restTemplate.getForEntity(uri, String.class);
+            String status = new JSONObject(result.getBody()).getString("status");
+            if (result.getStatusCodeValue() == HttpStatus.OK.value() && status.equalsIgnoreCase("UP")) {
+                return true;
+            }
+        } catch (ResourceAccessException exception) {
+            // Handles the scenario when the service itself is unreachable.
+            return false;
+        }
+        // return false by default for non 200 response status.
+        return false;
     }
-    catch (ResourceAccessException exception) {
-      // Handles the scenario when the service itself is unreachable.
-      return false;
-    }
-    // return false by default for non 200 response status.
-    return false;
-  }
 }

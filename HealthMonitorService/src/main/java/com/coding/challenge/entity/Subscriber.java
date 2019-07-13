@@ -4,10 +4,10 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "subscriber")
-@SequenceGenerator(name="seq", initialValue=2)
+@SequenceGenerator(name = "seq", initialValue = 2)
 public class Subscriber {
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
     @Column(name = "id", nullable = false)
     private Long id;
     @Column(name = "name", length = 50, nullable = false)

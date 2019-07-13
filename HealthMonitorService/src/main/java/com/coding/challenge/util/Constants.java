@@ -18,13 +18,20 @@ public class Constants {
      */
     public static final String UP = "UP";
     /**
-     *
      * The service available status.
      */
     public static final String AVAILABLE = "Available";
     /**
-     *
      * The service name.
      */
     public static final String SERVICE = "RemoteService";
+
+    /**
+     * The Status down email message.
+     */
+    public static final String DOWN_MESSAGE = "Hi there, you might experience instability in our services as one of the critical services is temporarily unavilable. We will keep you posted when the service is restored.";
+    /**
+     * The status up email message.
+     */
+    public static final String UP_MESSAGE = "Hi there, this is a follow up email to inform you that all our services are now restored.";
 }

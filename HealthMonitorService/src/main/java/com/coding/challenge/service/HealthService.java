@@ -5,8 +5,6 @@ import com.coding.challenge.repository.HealthRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 /**
  * The service class to handle the business logic.
  */
@@ -21,6 +19,7 @@ public class HealthService {
 
     /**
      * This method invokes the repository to insert subscriber details.
+     *
      * @param subscriber
      * @return
      */
@@ -30,6 +29,7 @@ public class HealthService {
 
     /**
      * This method returns all the subscribers.
+     *
      * @return
      */
     public Iterable<Subscriber> getAllSubscribers() {
