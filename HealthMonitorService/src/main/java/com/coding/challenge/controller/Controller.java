@@ -5,13 +5,12 @@ import com.coding.challenge.service.HealthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Controller class to expose the APIs.
@@ -35,6 +34,23 @@ public class Controller {
     public Subscriber subscribeForStatus(@RequestBody Subscriber subscriber, HttpServletResponse response) throws IOException {
         if (subscriber != null && subscriber.getEmail() != null && subscriber.getName() != null) {
             return healthService.addSubscriber(subscriber);
+        } else {
+            response.sendError(HttpStatus.BAD_REQUEST.value(), "Mandatory fields name or email are missing.");
+            return null;
+        }
+    }
+
+    /**
+     * The API for subscribing users for external service health.
+     *
+     * @return the user details.
+     */
+    @GetMapping(path = "/service/status/subscribers", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Subscriber> getAllSubscribers(HttpServletResponse response) throws IOException {
+        List<Subscriber> subscribers = new ArrayList<>();
+        healthService.getAllSubscribers().forEach(subscribers::add);
+        if (subscribers.size() > 0) {
+            return subscribers;
         } else {
             response.sendError(HttpStatus.BAD_REQUEST.value(), "Mandatory fields name or email are missing.");
             return null;

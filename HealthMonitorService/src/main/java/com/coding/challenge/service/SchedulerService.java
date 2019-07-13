@@ -54,7 +54,7 @@ public class SchedulerService {
         logger.debug("The external service status is " + status);
 
         //fetch all the subscribers if the service is down
-        if(status.equalsIgnoreCase(Constants.DOWN)) {
+        if (status.equalsIgnoreCase(Constants.DOWN)) {
             Iterable<Subscriber> subscriberList = healthService.getAllSubscribers();
             if (subscriberList != null) {
                 //send email to subscribers
@@ -62,6 +62,10 @@ public class SchedulerService {
             } else {
                 logger.info("Currently there are no subscribers for service health status");
             }
+        } else if(status.equalsIgnoreCase(Constants.UP) && subscribers.size() > 0) {
+            subscribers.forEach(s -> sendEmail(s, status));
+            //clear the subscribers list after sending out an email.
+            subscribers.clear();
         }
     }
 
@@ -74,16 +78,12 @@ public class SchedulerService {
     private void sendEmail(String email, String status) {
         //check if the subscriber is already notified
         if (!subscribers.contains(email) && status.equalsIgnoreCase(Constants.DOWN)) {
-            logger.info("Sending status down email to " + email);
+            logger.info("Sending status " + status + " email to " + email);
+            emailService.sendEmail(email, status);
             subscribers.add(email);
-            //emailService.sendEmail(subscriber, status);
         }
-        //send out the follow-up email to the subscribers who have been notified about status down.
-        if (status.equalsIgnoreCase(Constants.UP) && subscribers.size() > 0) {
-//            subscribers.forEach(s -> emailService.sendEmail(s, status));
-            subscribers.forEach(s -> logger.info("Sending up email to " + s));
-            //clear the subscribers list after sending out an email.
-            subscribers.clear();
+        if(status.equalsIgnoreCase(Constants.UP)) {
+            emailService.sendEmail(email, status);
         }
     }
 }
