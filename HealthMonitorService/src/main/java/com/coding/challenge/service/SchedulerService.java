@@ -63,7 +63,6 @@ public class SchedulerService {
             List<Subscriber> subscriberList = new ArrayList<>();
             healthService.getAllSubscribers().forEach(subscriberList::add);
             if (subscriberList.size() > 0) {
-                //send email to notifiedSubscribers
                 sendDownEmail(subscriberList, status);
             } else {
                 logger.info("Currently there are no subscribers for service health status");
@@ -84,8 +83,8 @@ public class SchedulerService {
      */
     private void sendDownEmail(List<Subscriber> subscribers, String status) {
         JSONArray recipients = new JSONArray();
-        //check if the subscriber is already notified
         for (Subscriber subscriber : subscribers) {
+            //check if the subscriber is already notified
             if (!notifiedSubscribers.contains(subscriber)) {
                 recipients.put(new JSONObject().put("Email", subscriber.getEmail()));
                 notifiedSubscribers.add(subscriber);
@@ -103,7 +102,6 @@ public class SchedulerService {
      */
     private void sendUpEmail(String status) {
         JSONArray recipients = new JSONArray();
-        //check if the subscriber is already notified
         for (Subscriber subscriber : notifiedSubscribers) {
             recipients.put(new JSONObject().put("Email", subscriber.getEmail()));
         }
