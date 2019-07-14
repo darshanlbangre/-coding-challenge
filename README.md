@@ -23,7 +23,7 @@ What things you need to install the software and how to install them
 3. IDE (probably intelliJ)
 4. Make sure the ports 8080 and 9000 are available and not accupied on the machines. The applications will attempt to run on these ports.
 
-## Installing
+## Installation
 
 1. Checkout the project from master branch.
 2. Run mvn clean package on both the projects individually.
@@ -43,6 +43,21 @@ What things you need to install the software and how to install them
 
 The project runs SpringBootTest which runs the entire integration tests by actually starting the container and by invoking the actual REST APIs.
 
+## Steps To Validate The Project
+
+* Start the RemoteService (java -jar RemoteService-0.0.1-SNAPSHOT.jar)
+* Start the HealthMonitorService (java -jar health-monitor-service-0.0.1-SNAPSHOT.jar)
+* Subscribe for service health notification (Use POST API described above)
+  * Example: http://localhost:8080/api/service/status/subscribe
+  * Payload: {
+	              "name":"your-name",
+	              "email":"your-email-id"
+             }
+* Stop the RemoteService. Within few seconds, you should receive an email on above mentioned valid email address with the service down notification.
+* Start the RemoteService again, you will receive another follow-up email on service restored notification.
+* Note: I am using a free tier of MailJet and it allows only 10 emails per hour. So, after 10th email, the next email will be delivered after an hour.
+
+
 ## Deployment
 
 The applications can be ran on any java based machine since it runs in it's own tomcat server.
@@ -55,6 +70,6 @@ The applications can be ran on any java based machine since it runs in it's own 
 ## Acknowledgments
 
 * The project is using free tier of Mailjet for sending actual emails. Currently the number of emails per hour is limited to 10.
-* Have not implemented the unit tests for service layers due to time contraints
-* Will add more if I remember more :)
+* Have not implemented the unit tests for the entire source code due to time contraints
+* Will add more if I remember any :)
 
