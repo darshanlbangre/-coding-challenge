@@ -22,22 +22,17 @@ What things you need to install the software and how to install them
 2. Maven
 3. IDE (probably intelliJ)
 
-### Installing
+## Installing
 
-1. Checkout the project from master branch
-2. You will find 2 different projects.
+1. Checkout the project from master branch.
+2. Run mvn clean package on both the projects individually.
+3. Navigate to RemoteService/taget and start the remove service by executing "java -jar RemoteService-0.0.1-SNAPSHOT.jar" 
+4. Navigate to HealthMonitorService/target and start the service by execting "java -jar health-monitor-service-0.0.1-SNAPSHOT.jar"
+5. After the services have successully started, add the subscribers via POST REST API described below.
 
-```
-Give the example
-```
+### REST APIs
 
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
+#### POST
 
 ## Running the tests
 
@@ -65,13 +60,8 @@ Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
+* [SpringBoot](https://spring.io/projects/spring-boot) - The web framework used
 * [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
