@@ -50,6 +50,14 @@ public class Subscriber {
                 email.equals(that.email);
     }
 
+    public Subscriber() {
+        //default constructor
+    }
+    public Subscriber(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id, name, email);

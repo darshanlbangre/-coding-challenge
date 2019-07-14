@@ -2,6 +2,8 @@ package com.coding.challenge.service;
 
 import com.coding.challenge.util.Constants;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
@@ -16,6 +18,10 @@ import org.springframework.web.client.RestTemplate;
  */
 @Component
 public class CustomHealthChecker implements HealthIndicator {
+
+    private static final Logger logger = LoggerFactory.getLogger(CustomHealthChecker.class);
+
+
 
     @Value("${service.url}")
     private String uri;
@@ -49,6 +55,8 @@ public class CustomHealthChecker implements HealthIndicator {
                 return true;
             }
         } catch (ResourceAccessException exception) {
+            logger.error("The dependency service is unreachable");
+            // Ideally implement custom exception and handle the errors gracefully.
             // Handles the scenario when the service itself is unreachable.
             return false;
         }

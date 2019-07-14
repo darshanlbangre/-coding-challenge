@@ -51,21 +51,28 @@ public class SchedulerService {
         //customHealthChecker can be invoked or the actuator health API can be invoked as well to fetch the health status.
         //Avoiding network calls and making a method call instead.
         String status = customHealthChecker.health().getStatus().getCode();
-        logger.debug("The external service status is " + status);
+        logger.info("The external service status is " + status);
 
         //fetch all the subscribers if the service is down
         if (status.equalsIgnoreCase(Constants.DOWN)) {
-            Iterable<Subscriber> subscriberList = healthService.getAllSubscribers();
-            if (subscriberList != null) {
+            List<Subscriber> subscriberList = new ArrayList<>();
+            healthService.getAllSubscribers().forEach(subscriberList::add);
+            if (subscriberList != null && subscriberList.size() > 0) {
                 //send email to subscribers
                 subscriberList.forEach(subscriber -> sendEmail(subscriber.getEmail(), status));
             } else {
                 logger.info("Currently there are no subscribers for service health status");
             }
         } else if(status.equalsIgnoreCase(Constants.UP) && subscribers.size() > 0) {
-            subscribers.forEach(s -> sendEmail(s, status));
-            //clear the subscribers list after sending out an email.
-            subscribers.clear();
+            if(subscribers.size() > 0) {
+                subscribers.forEach(s -> sendEmail(s, status));
+                //clear the subscribers list after sending out an email.
+                subscribers.clear();
+            }
+            else {
+                logger.info("Currently there are no subscribers for service health status");
+            }
+
         }
     }
 
