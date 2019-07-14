@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The Controller class to expose the APIs.
+ * The Controller class to expose the service APIs.
  */
 @RestController
 @RequestMapping(path = "/api")
-public class Controller {
+public class SubscriberController {
     /**
      * The HealthService instance.
      */
@@ -35,7 +35,7 @@ public class Controller {
         if (subscriber != null && subscriber.getEmail() != null && subscriber.getName() != null) {
             return healthService.addSubscriber(subscriber);
         } else {
-            response.sendError(HttpStatus.BAD_REQUEST.value(), "Mandatory fields name or email are missing.");
+            response.sendError(HttpStatus.BAD_REQUEST.value(), "Mandatory fields i.e.. name or email are missing.");
             return null;
         }
     }
@@ -52,7 +52,7 @@ public class Controller {
         if (subscribers.size() > 0) {
             return subscribers;
         } else {
-            response.sendError(HttpStatus.BAD_REQUEST.value(), "Mandatory fields name or email are missing.");
+            response.sendError(HttpStatus.NOT_FOUND.value()); // Setting HTTP response status to 404 as there are no subscribers found.
             return null;
         }
     }

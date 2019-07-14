@@ -19,10 +19,13 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class CustomHealthChecker implements HealthIndicator {
 
+    /**
+     * The logger instance.
+     */
     private static final Logger logger = LoggerFactory.getLogger(CustomHealthChecker.class);
-
-
-
+    /**
+     * The external service health URI.
+     */
     @Value("${service.url}")
     private String uri;
 
@@ -55,7 +58,7 @@ public class CustomHealthChecker implements HealthIndicator {
                 return true;
             }
         } catch (ResourceAccessException exception) {
-            logger.error("The dependency service is unreachable");
+            logger.debug("The dependency service is unreachable");
             // Ideally implement custom exception and handle the errors gracefully.
             // Handles the scenario when the service itself is unreachable.
             return false;

@@ -33,10 +33,10 @@ public class EmailService {
     /**
      * This method sends the service status email to health subscribers.
      *
-     * @param email
+     * @param recipients
      * @param status
      */
-    public void sendEmail(String email, String status) {
+    public void sendEmail(JSONArray recipients, String status) {
 
         MailjetClient client;
         MailjetRequest request;
@@ -48,10 +48,7 @@ public class EmailService {
                                 .put(Emailv31.Message.FROM, new JSONObject()
                                         .put("Email", "darshanbangre89@gmail.com")
                                         .put("Name", "Darshan Bangre"))
-                                .put(Emailv31.Message.TO, new JSONArray()
-                                        .put(new JSONObject()
-                                                .put("Email", email)
-                                                .put("Name", "You")))
+                                .put(Emailv31.Message.TO, recipients)
                                 .put(Emailv31.Message.SUBJECT, "Dependency Service Status")
                                 .put(Emailv31.Message.HTMLPART, "<h3>" +
                                         (status.equalsIgnoreCase(Constants.UP) ? Constants.UP_MESSAGE : Constants.DOWN_MESSAGE) +
@@ -59,13 +56,13 @@ public class EmailService {
         try {
             response = client.post(request);
             if (response.getStatus() == HttpStatus.OK.value()) {
-                logger.info("Email successfuly sent to " + email);
+                logger.info("Email successfuly sent to " + recipients.toString());
             }
         } catch (MailjetException e) {
-            logger.info("Failed to sent email to " + email);
+            logger.info("Failed to sent email to " + recipients.toString());
             e.printStackTrace();
         } catch (MailjetSocketTimeoutException e) {
-            logger.info("Failed to sent email to " + email);
+            logger.info("Failed to sent email to " + recipients.toString());
             e.printStackTrace();
         }
     }

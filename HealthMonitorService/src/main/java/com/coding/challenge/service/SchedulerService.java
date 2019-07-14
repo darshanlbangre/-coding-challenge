@@ -2,6 +2,8 @@ package com.coding.challenge.service;
 
 import com.coding.challenge.entity.Subscriber;
 import com.coding.challenge.util.Constants;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +24,9 @@ public class SchedulerService {
      */
     private static final Logger logger = LoggerFactory.getLogger(SchedulerService.class);
     /**
-     * Global list to hold the subscribers who have been notified.
+     * Global list to hold the notifiedSubscribers who have been notified.
      */
-    private List<String> subscribers = new ArrayList<>();
+    private List<Subscriber> notifiedSubscribers = new ArrayList<>();
     /**
      * The Health Checker service instance.
      */
@@ -48,49 +50,64 @@ public class SchedulerService {
      */
     @Scheduled(fixedDelayString = "${scheduler.delay.interval}", initialDelay = 8000)
     public void notifyHealthStatus() {
-        //customHealthChecker can be invoked or the actuator health API can be invoked as well to fetch the health status.
-        //Avoiding network calls and making a method call instead.
-        String status = customHealthChecker.health().getStatus().getCode();
-        logger.info("The external service status is " + status);
 
-        //fetch all the subscribers if the service is down
+        //customHealthChecker can be invoked or the actuator health API can be invoked as well to fetch the health status.
+        //I am Avoiding network calls and making a method call instead.
+        String status = customHealthChecker.health().getStatus().getCode();
+
+        logger.debug("The external service status is " + status);
+
+        //fetch all the notifiedSubscribers if the service is down
         if (status.equalsIgnoreCase(Constants.DOWN)) {
+
             List<Subscriber> subscriberList = new ArrayList<>();
             healthService.getAllSubscribers().forEach(subscriberList::add);
-            if (subscriberList != null && subscriberList.size() > 0) {
-                //send email to subscribers
-                subscriberList.forEach(subscriber -> sendEmail(subscriber.getEmail(), status));
+            if (subscriberList.size() > 0) {
+                //send email to notifiedSubscribers
+                sendDownEmail(subscriberList, status);
             } else {
                 logger.info("Currently there are no subscribers for service health status");
             }
-        } else if(status.equalsIgnoreCase(Constants.UP) && subscribers.size() > 0) {
-            if(subscribers.size() > 0) {
-                subscribers.forEach(s -> sendEmail(s, status));
-                //clear the subscribers list after sending out an email.
-                subscribers.clear();
-            }
-            else {
-                logger.info("Currently there are no subscribers for service health status");
-            }
-
+        } else if (status.equalsIgnoreCase(Constants.UP) && notifiedSubscribers.size() > 0) {
+            sendUpEmail(status);
+            //clear the notifiedSubscribers list after sending out an email.
+            notifiedSubscribers.clear();
         }
     }
 
+
     /**
-     * This method send out the service status email to subscribers.
+     * This method send out the service status email to notifiedSubscribers.
      *
-     * @param email
+     * @param subscribers
      * @param status
      */
-    private void sendEmail(String email, String status) {
+    private void sendDownEmail(List<Subscriber> subscribers, String status) {
+        JSONArray recipients = new JSONArray();
         //check if the subscriber is already notified
-        if (!subscribers.contains(email) && status.equalsIgnoreCase(Constants.DOWN)) {
-            logger.info("Sending status " + status + " email to " + email);
-            emailService.sendEmail(email, status);
-            subscribers.add(email);
+        for (Subscriber subscriber : subscribers) {
+            if (!notifiedSubscribers.contains(subscriber)) {
+                recipients.put(new JSONObject().put("Email", subscriber.getEmail()));
+                notifiedSubscribers.add(subscriber);
+            }
         }
-        if(status.equalsIgnoreCase(Constants.UP)) {
-            emailService.sendEmail(email, status);
+        if(recipients.length() > 0){
+            logger.info("Sending status down emails to " + recipients.toString());
+            emailService.sendEmail(recipients, status);
         }
+    }
+
+
+    /**
+     * This method send out the service status email to notifiedSubscribers.
+     */
+    private void sendUpEmail(String status) {
+        JSONArray recipients = new JSONArray();
+        //check if the subscriber is already notified
+        for (Subscriber subscriber : notifiedSubscribers) {
+            recipients.put(new JSONObject().put("Email", subscriber.getEmail()));
+        }
+        logger.info("Sending status up emails to " + recipients.toString());
+        emailService.sendEmail(recipients, status);
     }
 }

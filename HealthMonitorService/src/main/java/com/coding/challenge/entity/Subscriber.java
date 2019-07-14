@@ -16,6 +16,15 @@ public class Subscriber {
     @Column(name = "email", length = 50, nullable = false)
     private String email;
 
+    public Subscriber() {
+        //default constructor
+    }
+
+    public Subscriber(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
     public Long getId() {
         return id;
     }
@@ -48,14 +57,6 @@ public class Subscriber {
         return Objects.equals(id, that.id) &&
                 name.equals(that.name) &&
                 email.equals(that.email);
-    }
-
-    public Subscriber() {
-        //default constructor
-    }
-    public Subscriber(String name, String email) {
-        this.name = name;
-        this.email = email;
     }
 
     @Override
