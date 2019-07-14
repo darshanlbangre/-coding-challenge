@@ -40,50 +40,20 @@ What things you need to install the software and how to install them
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
+The project runs SpringBootTest which runs the entire integration tests by actually starting the container and by invoking the actual REST APIs.
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+The applications can be ran on any java based machine since it runs in it's own tomcat server.
 
 ## Built With
 
 * [SpringBoot](https://spring.io/projects/spring-boot) - The web framework used
 * [Maven](https://maven.apache.org/) - Dependency Management
 
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+* The project is using free tier of Mailjet for sending actual emails. Currently the number of emails per hour is limited to 10.
+* Have not implemented the unit tests for service layers due to time contraints
+* Will add more if I remember more :)
 
