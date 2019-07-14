@@ -9,7 +9,7 @@ dependencies and if it detects that the dependent service is unavailable, it sho
 users who have signed up.
 
 # Project Overview
-This project contains TWO applications i.e.. HealthMonitorService and RemoteService. The former keeps track of the service health status of the latter. The HealthMonitorService contains an in-memory database and exposes APIs for interested users to subscribe for an email notification of the heath status of RemoteService.
+This project contains TWO different applications i.e.. HealthMonitorService and RemoteService. The former keeps track of the service health status of the latter (RemoteService). The HealthMonitorService contains an in-memory database and exposes APIs for interested users to subscribe for an email notification of the heath status of RemoteService.
 
 ## Getting Started
 
