@@ -21,6 +21,7 @@ What things you need to install the software and how to install them
 1. JDK 11
 2. Maven
 3. IDE (probably intelliJ)
+4. Make sure the ports 8080 and 9000 are available and not accupied on the machines. The applications will attempt to run on these ports.
 
 ## Installing
 
