@@ -30,9 +30,13 @@ What things you need to install the software and how to install them
 4. Navigate to HealthMonitorService/target and start the service by execting "java -jar health-monitor-service-0.0.1-SNAPSHOT.jar"
 5. After the services have successully started, add the subscribers via POST REST API described below.
 
-### REST APIs
+## REST APIs
 
-#### POST
+* Add a subscriber
+  * POST http://localhost:8080/api/service/status/subscribe
+* Get all the subscribers
+  * GET http://localhost:8080/api/service/status/subscribers
+
 
 ## Running the tests
 
